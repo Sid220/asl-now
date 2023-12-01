@@ -1,9 +1,9 @@
 /testing
 /models
 /server
-sample.json
-inf2tmp.ipynb
-main.py
+/sample.json
+/inf2tmp.ipynb
+/main.py
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
