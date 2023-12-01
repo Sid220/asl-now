@@ -1,0 +1,10 @@
+tensorflow~=2.14.0
+opencv-python~=4.8.1.78
+pandas~=2.1.2
+pyarrow
+numpy~=1.26.1
+scikit-learn
+tqdm
+Levenshtein
+mediapipe~=0.10.7
+websockets~=12.0
