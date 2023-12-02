@@ -4,6 +4,7 @@
 	import svelteImg from "$lib/images/svelte-logo.svg";
     import flaskImg from "$lib/images/tech/flask.png";
     import mpImg from "$lib/images/tech/mp.svg";
+    import roboflowImg from "$lib/images/tech/roboflow.png";
 </script>
 
 <svelte:head>
@@ -32,6 +33,9 @@
     </a>
     <a href="https://developers.google.com/mediapipe" target="_blank">
         <img src={mpImg} alt="MediaPipe" class="tech-img"/>
+    </a>
+    <a href="https://universe.roboflow.com/2713/asl-v7ssh" target="_blank">
+        <img src={roboflowImg} alt="Roboflow" class="tech-img"/>
     </a>
 </div>
 <style>
