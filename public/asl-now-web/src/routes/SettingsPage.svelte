@@ -27,3 +27,9 @@
     <input bind:checked={$conf.showPose} type="checkbox" class="form-control">
     Show pose
 </label>
+
+<button on:click={() => {
+    $conf.currentProgress = 0;
+}}>
+    Restart
+</button>

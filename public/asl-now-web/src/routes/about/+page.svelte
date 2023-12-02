@@ -15,7 +15,7 @@
     <h1>About ASLNow!</h1>
 
     <p>
-        This is an app for learning American Sign Language (ASL). It is a work in progress.
+        This is an app for learning <a href="https://en.wikipedia.org/wiki/American_Sign_Language#Fingerspelling" target="_blank">American Sign Language (ASL)</a>. It is a work in progress.
     </p>
     <h2>Technologies Used</h2>
     <a href="https://www.tensorflow.org/" target="_blank">

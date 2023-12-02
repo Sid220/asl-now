@@ -69,7 +69,7 @@
     </nav>
 
     <div class="corner">
-        <a href="https://github.com/sveltejs/kit">
+        <a href="https://github.com/Sid220/asl-now">
             <img src={github} alt="GitHub"/>
         </a>
     </div>
