@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Tabs from "./Tabs.svelte";
-    import {Box, Image, Square} from "lucide-svelte";
-    import Img from "$lib/js/Img.svelte";
-    import PageOne from "./tutorial_pages/PageOne.svelte";
-    import PageTwo from "./tutorial_pages/PageTwo.svelte";
+    import Tabs from "$lib/js/Tabs.svelte";
+    import {Square} from "lucide-svelte";
+    import PageOne from "$lib/js/tutorial_pages/PageOne.svelte";
+    import PageTwo from "$lib/js/tutorial_pages/PageTwo.svelte";
+    import PageThree from "$lib/js/tutorial_pages/PageThree.svelte";
 
     let items = [
         {
@@ -15,10 +15,15 @@
             label: Square,
             value: 2,
             component: PageTwo
+        },
+        {
+            label: Square,
+            value: 3,
+            component: PageThree
         }
     ];
 </script>
 <h1>Tutorial</h1>
 <div style="width: 100%">
-    <Tabs {items}/>
+    <Tabs {items} showArrows={true}/>
 </div>

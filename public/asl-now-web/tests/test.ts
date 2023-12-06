@@ -1,4 +1,5 @@
 import {expect, test} from '@playwright/test';
+import * as assert from "assert";
 
 test('about page has expected h1', async ({page}) => {
     await page.goto('/about');
@@ -15,4 +16,20 @@ test('index requires welcome, tutorial', async ({page}) => {
     await startBtn.click();
     await expect(startBtn).toBeHidden();
     await expect(page.locator('video.input_video')).toBeVisible();
+    const settingsBtn = page.locator(".lucide-settings");
+    await expect(settingsBtn).toBeVisible();
+    await settingsBtn.click();
+    await expect(page.locator(".modal-content")).toBeVisible();
+    await page.locator('.show-labels-checkbox').click();
+    // Check Localstorage writing
+    await page.context().storageState().then(state => {
+        const lStorage = state.origins.find((ele) => {
+            return ele.origin === 'http://localhost:4173';
+        });
+        const config = lStorage!.localStorage.find((ele) => {
+            return ele.name === 'config';
+        });
+        const localStorage = JSON.parse(config!.value);
+        assert.ok(!localStorage.showLabels);
+    });
 });

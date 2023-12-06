@@ -1,9 +1,8 @@
 <script lang="ts">
     import {page} from '$app/stores';
-    import logo from '$lib/images/logo.png';
+    import logo from '$lib/images/logo.svg';
     import github from '$lib/images/github.svg';
     import {Settings, GraduationCap} from "lucide-svelte";
-    import Modal from "./Modal.svelte";
     import {onMount} from "svelte";
     import ModalTutorial from "./ModalTutorial.svelte";
 
@@ -17,21 +16,23 @@
         throw new Error('openTutorial is not defined')
     }
 
-    onMount(async () => {
-        const ModalSettings = (await import('./ModalSettings.svelte')).default;
+    onMount(async () =>
+    {
+        const ModalSettings = (await import('./SettingsModal.svelte')).default;
 
         openSettings = () => {
-            const modal = new ModalSettings({
+            new ModalSettings({
                 target: settingsModal!,
             });
         }
 
         openTutorial = () => {
-            const modal = new ModalTutorial({
+            new ModalTutorial({
                 target: tutorialModal!,
             });
         }
-    });
+    }
+);
 </script>
 
 <header>
