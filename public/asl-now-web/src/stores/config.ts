@@ -1,4 +1,5 @@
 import {writable} from 'svelte/store'
+import {programmes} from "$lib/programmes/default";
 
 export interface Config {
     showPose: boolean,
@@ -8,11 +9,14 @@ export interface Config {
     showLabels: boolean,
     confidenceThreshold: number,
     showedTutorial: boolean,
-    currentProgress: number,
+    currentProgress: {
+        progress: number,
+        max: number
+    }[],
     requiredCorrectTimes: number
 }
 
-export const defaultConf = {
+export const defaultConf: Config = {
     showPose: true,
     showFace: true,
     showHands: true,
@@ -20,7 +24,13 @@ export const defaultConf = {
     showLabels: true,
     confidenceThreshold: 0.5,
     showedTutorial: false,
-    currentProgress: 0,
+    currentProgress: [{
+        progress: 0,
+        max: programmes[0].data.length
+    }, {
+        progress: 0,
+        max: programmes[1].data.length
+    }],
     requiredCorrectTimes: 3
 }
 

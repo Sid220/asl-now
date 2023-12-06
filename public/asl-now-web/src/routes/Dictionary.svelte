@@ -3,8 +3,8 @@
     import {Box, Image} from 'lucide-svelte';
 
     export let letter: LetterInfo;
-    import Model from './Model.svelte';
-    import Tabs from "./Tabs.svelte";
+    import Model from '$lib/js/Model.svelte';
+    import Tabs from "$lib/js/Tabs.svelte";
     import Img from "$lib/js/Img.svelte";
 
     let items = [
