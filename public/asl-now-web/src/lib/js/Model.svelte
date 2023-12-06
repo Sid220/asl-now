@@ -1,8 +1,8 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import * as THREE from 'three';
-    import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
-    import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+    import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js'
+    import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
     import {choose, degrees_to_radians} from "$lib/js/Maths";
 
     export let model: string;
@@ -57,7 +57,7 @@
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             // called when loading has errors
-            function (error: Error) {
+            function (error: unknown) {
                 console.log('An error happened');
                 console.error(error);
             }

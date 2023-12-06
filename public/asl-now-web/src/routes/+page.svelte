@@ -21,8 +21,15 @@
     let videoStartedEvent = new Event("videoStarted");
     const webSocketURL = PUBLIC_WEBSOCKET_URL;
     let letterCorrectEvent = new Event('letterCorrect');
-    let currentProgrammeIndex = $conf.currentProgress.findIndex((value) => value.progress <= value.max);
-    console.log(currentProgrammeIndex);
+    let currentProgrammeIndex = $conf.currentProgress.findIndex((value) => value.progress < value.max);
+    function finish() {
+        new FinishedModal({
+            target: document.body
+        });
+    }
+    if (currentProgrammeIndex === -1) {
+        finish();
+    }
     let currentProgramme = programmes[currentProgrammeIndex];
 
     const isVideoPlaying = (video: HTMLVideoElement) => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
@@ -47,12 +54,6 @@
                 message: message,
                 moreInfo: moreInfo
             }
-        });
-    }
-
-    function finish() {
-        new FinishedModal({
-            target: document.body
         });
     }
 
@@ -99,7 +100,6 @@
     }
 
     let letters = (programmes[currentProgrammeIndex].data as LetterInfo[]);
-    let phrases = (programmes[1].data as LetterInfo[][]);
 
     function startCamera() {
         videoElement.play().then(() => {
@@ -107,7 +107,7 @@
         });
     }
 
-    const startAppSafe = () => {
+    const startApp = () => {
         try {
             let videoInfo = new VideoInfo(canvasElement, videoElement, new VideoSize(videoWidth, videoHeight));
             let dataHandler = currentProgramme.type.start(videoInfo, currentProgramme, webSocketURL, alertError, $conf, letterCorrectEvent);
@@ -123,7 +123,7 @@
                 sendFrame();
             });
             currentProgramme.type.socket!.addEventListener('open', () => {
-                console.log("Socket opened");
+                console.info("Socket opened");
                 sendFrame();
             });
         } catch (e: any) {
@@ -133,15 +133,20 @@
     }
 
     window.addEventListener("letterCorrect", () => {
-        if ($conf.currentProgress[currentProgrammeIndex].progress < $conf.currentProgress[currentProgrammeIndex].max) {
-            $conf.currentProgress[currentProgrammeIndex].progress++;
-        } else {
+        console.info("Correct!");
+        $conf.currentProgress[currentProgrammeIndex].progress++;
+        if ($conf.currentProgress[currentProgrammeIndex].progress > ($conf.currentProgress[currentProgrammeIndex].max - 1)) {
+            console.info("Finished a section");
             currentProgramme.type.stop();
             currentProgrammeIndex++;
+            if (currentProgrammeIndex === programmes.length) {
+                finish();
+                return;
+            }
             currentProgramme = programmes[currentProgrammeIndex];
             $conf.currentProgress[currentProgrammeIndex].progress = 0;
             letters = (programmes[currentProgrammeIndex].data as LetterInfo[]);
-            startAppSafe();
+            startApp();
         }
 
         checkVideoEle.play().then(() => {
@@ -150,10 +155,23 @@
         });
     });
 
-    $: {
-        if (typeof letters[$conf.currentProgress[currentProgrammeIndex].progress] === "undefined") {
-            finish();
+    function startAppFirstTime() {
+        if (!navigator.mediaDevices.getUserMedia) {
+            alertError("getUserMedia not supported");
+            return;
         }
+        navigator.mediaDevices
+            .getUserMedia({
+                video: true,
+            })
+            .then(function (stream) {
+                videoElement.srcObject = stream;
+                startApp();
+            })
+            .catch(function (error) {
+                console.error(error);
+                alertError("Error getting video stream, ensure you click allow!", error.message + "\n" + error.stack);
+            });
     }
 </script>
 
@@ -166,7 +184,7 @@
     <span class="welcome">
         <img src={logo} alt="ASLNow! Logo"/>
     </span>
-    <button on:click={() => { hide_ele(welcome_container); show_ele(content_container); startAppSafe(); startCamera(); }}>
+    <button on:click={() => { hide_ele(welcome_container); show_ele(content_container); startAppFirstTime(); startCamera(); }}>
         Start
     </button>
 </section>

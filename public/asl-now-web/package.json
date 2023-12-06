@@ -1,6 +1,6 @@
 {
 	"name": "asl-now-web",
-	"version": "0.0.1",
+	"version": "2.0.1",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -8,7 +8,7 @@
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint ."
+		"lint": "eslint . && echo '\uD83C\uDF89 No ESLint issues!'"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",

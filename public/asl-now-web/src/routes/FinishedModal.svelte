@@ -12,6 +12,12 @@
             <img src={logo} alt="ASLNow Logo" class="logo" style="max-width: 100%;"/>
         </div>
         <h1>Thanks for learning with ASLNow!</h1>
+        <form method="get" action="certificate" target="_blank">
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <input type="text" required name="name" placeholder="Name">
+                <button type="submit" formtarget="_blank">Get Certificate!</button>
+            </div>
+        </form>
         <p>You've finished all our content for now, but watch out for more! Here are some other great resources for
             learning ASL</p>
         <ul style="list-style: inside; display: inline;">
@@ -23,9 +29,9 @@
         <br/>
 
         <span class="link" tabindex="0" role="button" on:click={() => {
-    $conf.currentProgress = defaultConf.currentProgress; modal.close();
+    $conf.currentProgress = defaultConf.currentProgress; window.location.href = "/";
 }} on:keydown={() => {
-    $conf.currentProgress = defaultConf.currentProgress; modal.close();
+    $conf.currentProgress = defaultConf.currentProgress; window.location.href = "/";
 }}>
     Restart
 </span>

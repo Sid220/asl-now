@@ -1,7 +1,6 @@
 <script lang="ts">
     import Modal from "$lib/js/Modal.svelte"
     import {XCircle} from "lucide-svelte"
-    import {invalidateAll} from "$app/navigation";
 
     export let message: string;
     export let moreInfo: string | null = null;

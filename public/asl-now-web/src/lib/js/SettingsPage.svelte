@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {conf, defaultConf} from "../../stores/config.ts";
+    import {conf, defaultConf} from "../../stores/config";
     import ProgressBar from "$lib/js/ProgressBar.svelte";
 </script>
 <h1>Bounding Boxes</h1>
@@ -8,7 +8,7 @@
     Show boxes
 </label><br>
 <label>
-    <input bind:checked={$conf.showLabels} type="checkbox" class="form-control">
+    <input bind:checked={$conf.showLabels} type="checkbox" class="form-control show-labels-checkbox">
     Show labels
 </label><br>
 <label>
@@ -31,9 +31,9 @@
 <h1>Progress</h1>
 <ProgressBar sections={$conf.currentProgress}/>
 <span class="link" tabindex="0" role="button" on:click={() => {
-    $conf.currentProgress = defaultConf.currentProgress;
+    $conf.currentProgress = defaultConf.currentProgress; window.location.href = "/";
 }} on:keydown={() => {
-    $conf.currentProgress = defaultConf.currentProgress;
+    $conf.currentProgress = defaultConf.currentProgress; window.location.href = "/";
 }}>
     Restart
 </span>

@@ -3,6 +3,7 @@
     import {Square} from "lucide-svelte";
     import PageOne from "$lib/js/tutorial_pages/PageOne.svelte";
     import PageTwo from "$lib/js/tutorial_pages/PageTwo.svelte";
+    import PageThree from "$lib/js/tutorial_pages/PageThree.svelte";
 
     let items = [
         {
@@ -14,6 +15,11 @@
             label: Square,
             value: 2,
             component: PageTwo
+        },
+        {
+            label: Square,
+            value: 3,
+            component: PageThree
         }
     ];
 </script>

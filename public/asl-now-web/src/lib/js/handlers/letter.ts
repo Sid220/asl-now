@@ -4,7 +4,6 @@ import type {Handler} from "$lib/js/handlers/handler";
 import type {VideoInfo} from "$lib/js/video";
 import type {Programme} from "$lib/js/programmes";
 import {CustomWS} from "$lib/js/CustomWS";
-import {conf} from "../../../stores/config";
 
 export class LetterHandler implements Handler {
     index: number;
@@ -34,22 +33,6 @@ export class LetterHandler implements Handler {
         info.firstCanvasEle.width = info.size.width;
         info.firstCanvasEle.height = info.size.height;
 
-        if (!navigator.mediaDevices.getUserMedia) {
-            errorHandler("getUserMedia not supported");
-            return () => {
-            };
-        }
-        navigator.mediaDevices
-            .getUserMedia({
-                video: true,
-            })
-            .then(function (stream) {
-                info.videoEle.srcObject = stream;
-            })
-            .catch(function (error) {
-                console.error(error);
-                errorHandler("Error getting video stream, ensure you click allow!", error.message + "\n" + error.stack);
-            });
         let numberTimesCorrect = 0;
 
         return (data: {
