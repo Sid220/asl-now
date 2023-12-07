@@ -8,3 +8,5 @@ tqdm
 Levenshtein
 mediapipe~=0.10.7
 websockets~=12.0
+requests
+python-dotenv

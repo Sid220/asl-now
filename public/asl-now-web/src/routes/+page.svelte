@@ -22,11 +22,14 @@
     const webSocketURL = PUBLIC_WEBSOCKET_URL;
     let letterCorrectEvent = new Event('letterCorrect');
     let currentProgrammeIndex = $conf.currentProgress.findIndex((value) => value.progress < value.max);
+    let lastLetter: LetterInfo | null = null;
+
     function finish() {
         new FinishedModal({
             target: document.body
         });
     }
+
     if (currentProgrammeIndex === -1) {
         finish();
     }
@@ -134,6 +137,7 @@
 
     window.addEventListener("letterCorrect", () => {
         console.info("Correct!");
+        lastLetter = letters[$conf.currentProgress[currentProgrammeIndex].progress];
         $conf.currentProgress[currentProgrammeIndex].progress++;
         if ($conf.currentProgress[currentProgrammeIndex].progress > ($conf.currentProgress[currentProgrammeIndex].max - 1)) {
             console.info("Finished a section");
@@ -173,6 +177,7 @@
                 alertError("Error getting video stream, ensure you click allow!", error.message + "\n" + error.stack);
             });
     }
+
 </script>
 
 <svelte:head>
@@ -223,7 +228,7 @@
     </video>
     <span style="color: #58a700; font-size: 3.5rem; margin-left: 15px">Correct!</span>
     <div style="width: 100%"></div>
-    <button on:click={() => {openLetter(letters[$conf.currentProgress[currentProgrammeIndex].progress - 1]) }}
+    <button on:click={() => { if (lastLetter) openLetter(lastLetter) }}
             style="margin: 10px; background: none; font-size: 1.5rem"><span style="font-size: 1rem; margin-right: 3px"><ExternalLink/></span>
         Review
     </button>

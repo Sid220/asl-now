@@ -19,7 +19,7 @@
             </div>
         </form>
         <p>You've finished all our content for now, but watch out for more! Here are some other great resources for
-            learning ASL</p>
+            learning ASL:</p>
         <ul style="list-style: inside; display: inline;">
             <li><a href="https://www.youtube.com/watch?v=0FcwzMq4iWg" target="_blank">25 Basic Signs</a></li>
             <li><a href="https://www.lifeprint.com/asl101/pages-layout/concepts.htm" target="_blank">Lifeprint 100 Basic
