@@ -14,6 +14,7 @@
     import {programmes} from "$lib/programmes/default";
     import {VideoInfo, VideoSize} from "$lib/js/video";
     import FinishedModal from "./FinishedModal.svelte";
+    import {data} from "@tensorflow/tfjs";
 
     let correctAudio = new Audio(checkAudio);
     let showAnimation = false;
@@ -23,6 +24,7 @@
     let letterCorrectEvent = new Event('letterCorrect');
     let currentProgrammeIndex = $conf.currentProgress.findIndex((value) => value.progress < value.max);
     let lastLetter: LetterInfo | null = null;
+    let detected_letter: string | null = null;
 
     function finish() {
         new FinishedModal({
@@ -113,22 +115,29 @@
     const startApp = () => {
         try {
             let videoInfo = new VideoInfo(canvasElement, videoElement, new VideoSize(videoWidth, videoHeight));
-            let dataHandler = currentProgramme.type.start(videoInfo, currentProgramme, webSocketURL, alertError, $conf, letterCorrectEvent);
-            currentProgramme.type.socket!.addEventListener('message', (event: any) => {
-                let json;
-                try {
-                    json = JSON.parse(event.data);
-                } catch (e) {
-                    console.error(e);
-                    return;
-                }
-                dataHandler(json);
-                sendFrame();
+            let dataHandler = currentProgramme.type.start(videoInfo, currentProgramme, webSocketURL, alertError, $conf, letterCorrectEvent, (letter) => {
+                detected_letter = letter;
             });
-            currentProgramme.type.socket!.addEventListener('open', () => {
-                console.info("Socket opened");
-                sendFrame();
-            });
+            if (!currentProgramme.type.noSocket) {
+                currentProgramme.type.socket!.addEventListener('message', (event: any) => {
+                    let json;
+                    try {
+                        json = JSON.parse(event.data);
+                    } catch (e) {
+                        console.error(e);
+                        return;
+                    }
+                    dataHandler(json);
+                    sendFrame();
+                });
+
+                currentProgramme.type.socket!.addEventListener('open', () => {
+                    console.info("Socket opened");
+                    sendFrame();
+                });
+            } else {
+                dataHandler();
+            }
         } catch (e: any) {
             console.error(e);
             alertError("Unknown Error", e.message + "\n" + e.stack);
@@ -202,6 +211,9 @@
              role="button" tabindex="0" style="visibility: {showAnimation ? 'hidden' : 'visible'}">
            {letters[$conf.currentProgress[currentProgrammeIndex].progress].letter}
        </span>
+        {#if detected_letter !== null}
+            <span style="font-size: 1.5rem; margin-left: 10px; color: {detected_letter[0] === letters[$conf.currentProgress[currentProgrammeIndex].progress].letter ? 'green': 'red'}">{detected_letter}</span>
+        {/if}
     </h1>
     <div class="container" style="position: relative">
         <div>

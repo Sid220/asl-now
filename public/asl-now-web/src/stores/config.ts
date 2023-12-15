@@ -1,7 +1,9 @@
 import {writable} from 'svelte/store'
 import {programmes} from "$lib/programmes/default";
+import {version} from '$app/environment';
 
 export interface Config {
+    version: string,
     showPose: boolean,
     showFace: boolean,
     showHands: boolean,
@@ -13,10 +15,12 @@ export interface Config {
         progress: number,
         max: number
     }[],
-    requiredCorrectTimes: number
+    requiredCorrectTimes: number,
+    showDebug: boolean
 }
 
 export const defaultConf: Config = {
+    version: version,
     showPose: true,
     showFace: true,
     showHands: true,
@@ -24,15 +28,16 @@ export const defaultConf: Config = {
     showLabels: true,
     confidenceThreshold: 0.5,
     showedTutorial: false,
-    currentProgress: [{
-        progress: 0,
-        max: programmes[0].data.length
-    }, {
-        progress: 0,
-        max: programmes[1].data.length
-    }],
-    requiredCorrectTimes: 3
+    currentProgress: Array.from(new Array(programmes.length), (val, index) => {
+        return {
+            progress: 0,
+            max: programmes[index].data.length
+        }
+    }),
+    requiredCorrectTimes: 3,
+    showDebug: false
 }
+
 
 const fromStorage = JSON.parse(localStorage.getItem('config')!)
 export const conf = writable<Config>(fromStorage || defaultConf)

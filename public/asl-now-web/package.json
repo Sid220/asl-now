@@ -1,6 +1,6 @@
 {
 	"name": "asl-now-web",
-	"version": "2.0.1",
+	"version": "3.0.2",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -9,7 +9,7 @@
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "eslint . && echo '\uD83C\uDF89 No ESLint issues!'"
+		"lint": "eslint . && echo '🎉 No ESLint issues!'"
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
@@ -37,8 +37,11 @@
 		"@mediapipe/control_utils": "^0.6.1675466023",
 		"@mediapipe/drawing_utils": "^0.3.1675466124",
 		"@mediapipe/holistic": "^0.5.1675471629",
+		"@mediapipe/tasks-vision": "^0.10.9",
+		"@tensorflow/tfjs": "^4.15.0",
 		"lucide-svelte": "^0.292.0",
 		"muhammara": "^4.0.0",
+		"stats.js": "^0.17.0",
 		"three": "^0.158.0"
 	}
 }
