@@ -12,7 +12,7 @@ const PDF_FILE = "https://cdn.jsdelivr.net/gh/Sid220/cdn@main/asl-now/Completion
 
 function createCert(in_pdf: string, name: string): Promise<Response> {
     const Recipe = muhammara.Recipe;
-    const pdfDoc = new Recipe(in_pdf, "out.pdf");
+    const pdfDoc = new Recipe(in_pdf, "/tmp/out.pdf");
     const now = new Date();
     return new Promise((resolve) => {
         pdfDoc
@@ -54,7 +54,7 @@ function createCert(in_pdf: string, name: string): Promise<Response> {
             })
             .endPage()
             .endPDF(() => {
-                const pdfContent = fs.readFileSync("out.pdf");
+                const pdfContent = fs.readFileSync("/tmp/out.pdf");
                 resolve(new Response(pdfContent, {
                     headers: {
                         'Content-Type': 'application/pdf',
