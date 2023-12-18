@@ -15,6 +15,11 @@ test('index requires welcome, tutorial', async ({page}) => {
     await expect(startBtn).toBeVisible();
     await startBtn.click();
     await expect(startBtn).toBeHidden();
+
+    // Error Modal (no camera)
+    await expect(page.locator(".modal-content")).toBeVisible();
+    await page.locator('.close-btn').click();
+
     await expect(page.locator('video.input_video')).toBeVisible();
     const settingsBtn = page.locator(".lucide-settings");
     await expect(settingsBtn).toBeVisible();
