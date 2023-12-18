@@ -2,6 +2,11 @@ import {error, redirect} from '@sveltejs/kit';
 import muhammara from 'muhammara';
 import {version} from '$app/environment';
 
+export const config = {
+	runtime: 'edge'
+};
+
+
 export function GET({url}: { url: URL }) {
     const name = url.searchParams.get('name');
     if (!name) {
