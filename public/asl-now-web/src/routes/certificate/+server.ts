@@ -74,8 +74,8 @@ export async function GET({url}: { url: URL }) {
     let filePromise = () => new Promise((resolve) => {
         resolve(null);
     });
-    if (!fs.existsSync("blank.pdf")) {
-        const file = fs.createWriteStream("blank.pdf");
+    if (!fs.existsSync("/tmp/blank.pdf")) {
+        const file = fs.createWriteStream("/tmp/blank.pdf");
         filePromise = () => {
             return new Promise((resolve) => {
                 https.get(PDF_FILE, function (response) {
@@ -92,5 +92,5 @@ export async function GET({url}: { url: URL }) {
         }
     }
     await filePromise();
-    return await createCert("blank.pdf", name);
+    return await createCert("/tmp/blank.pdf", name);
 }
