@@ -5,7 +5,7 @@
     import {onDestroy} from "svelte";
     import type {LetterInfo} from "$lib/js/Dic";
     import ModalDic from "./DictionaryModal.svelte";
-    import {conf} from "../stores/config";
+    import {conf, defaultConf} from "../stores/config";
     import ModalTutorial from "./ModalTutorial.svelte";
     import {ExternalLink} from "lucide-svelte";
     import ErrorModal from "./ErrorModal.svelte";
@@ -14,7 +14,18 @@
     import {programmes} from "$lib/programmes/default";
     import {VideoInfo, VideoSize} from "$lib/js/video";
     import FinishedModal from "./FinishedModal.svelte";
-    import {data} from "@tensorflow/tfjs";
+    import {version} from '$app/environment';
+
+    console.info(`App version: ${version}`);
+
+    if(!$conf.version) {
+        $conf.version = "0.0.0";
+    }
+    // Check if major version is the same
+    if ($conf.version.split('.')[0] !== version.split('.')[0]) {
+        console.warn(`Major version mismatch: ${$conf.version} != ${version}`);
+        $conf = defaultConf;
+    }
 
     let correctAudio = new Audio(checkAudio);
     let showAnimation = false;

@@ -15,11 +15,6 @@
             label: Square,
             value: 2,
             component: PageTwo
-        },
-        {
-            label: Square,
-            value: 3,
-            component: PageThree
         }
     ];
 </script>

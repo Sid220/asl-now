@@ -5,15 +5,110 @@ import {
     HandLandmarker,
     FilesetResolver,
     type HandLandmarkerResult,
-    type NormalizedLandmark
+    type NormalizedLandmark,
+    type DrawingOptions
 } from "@mediapipe/tasks-vision";
 import * as tf from '@tensorflow/tfjs';
 import type {Config} from "../../../stores/config";
-import {drawConnectors, drawLandmarks} from "@mediapipe/drawing_utils";
-import {HAND_CONNECTIONS} from "@mediapipe/holistic";
-import "@tensorflow/tfjs-core/dist/public/chained_ops/arg_max";
+import type {LandmarkConnectionArray} from "@mediapipe/holistic";
 import type {LetterInfo} from "$lib/js/Dic";
-import Stats from "stats.js"
+import Stats from "stats.js";
+
+function convertToConnections(...connections: Array<[number, number]>):
+    Connection[] {
+    return connections.map(([start, end]) => ({start, end}));
+}
+
+const HAND_CONNECTIONS = convertToConnections(
+    [0, 1], [1, 2], [2, 3], [3, 4], [0, 5], [5, 6], [6, 7], [7, 8], [5, 9],
+    [9, 10], [10, 11], [11, 12], [9, 13], [13, 14], [14, 15], [15, 16],
+    [13, 17], [0, 17], [17, 18], [18, 19], [19, 20]);
+
+/** A connection between two landmarks. */
+export declare interface Connection {
+    start: number;
+    end: number;
+}
+
+export type Callback<I, O> = (input: I) => O;
+
+const DEFAULT_OPTIONS: DrawingOptions = {
+    color: 'white',
+    lineWidth: 4,
+    radius: 6
+};
+
+/** Merges the user's options with the default options. */
+function addDefaultOptions(style?: DrawingOptions): DrawingOptions {
+    style = style || {};
+    return {
+        ...DEFAULT_OPTIONS,
+        ...{fillColor: style.color},
+        ...style,
+    };
+}
+
+/**
+ * Resolve the value from `value`. Invokes `value` with `data` if it is a
+ * function.
+ */
+function resolve<O, I>(value: O | Callback<I, O>, data: I): O {
+    return value instanceof Function ? value(data) : value;
+}
+
+function drawLandmarks(ctx: CanvasRenderingContext2D, landmarks?: NormalizedLandmark[], style?: DrawingOptions):
+    void {
+    if (!landmarks) {
+        return;
+    }
+    const options = addDefaultOptions(style);
+    ctx.save();
+    const canvas = ctx.canvas;
+    let index = 0;
+    for (const landmark of landmarks) {
+        // All of our points are normalized, so we need to scale the unit canvas
+        // to match our actual canvas size.
+        ctx.fillStyle = resolve(options.fillColor!, {index, from: landmark});
+        ctx.strokeStyle = resolve(options.color!, {index, from: landmark});
+        ctx.lineWidth = resolve(options.lineWidth!, {index, from: landmark});
+
+        const circle = new Path2D();
+        // Decrease the size of the arc to compensate for the scale()
+        circle.arc(
+            landmark.x * canvas.width, landmark.y * canvas.height,
+            resolve(options.radius!, {index, from: landmark}), 0, 2 * Math.PI);
+        ctx.fill(circle);
+        ctx.stroke(circle);
+        ++index;
+    }
+    ctx.restore();
+}
+
+function drawConnectors(ctx: CanvasRenderingContext2D,
+                        landmarks?: NormalizedLandmark[], connections?: Connection[],
+                        style?: DrawingOptions): void {
+    if (!landmarks || !connections) {
+        return;
+    }
+    const options = addDefaultOptions(style);
+    ctx.save();
+    const canvas = ctx.canvas;
+    let index = 0;
+    for (const connection of connections) {
+        ctx.beginPath();
+        const from = landmarks[connection.start];
+        const to = landmarks[connection.end];
+        if (from && to) {
+            ctx.strokeStyle = resolve(options.color!, {index, from, to});
+            ctx.lineWidth = resolve(options.lineWidth!, {index, from, to});
+            ctx.moveTo(from.x * canvas.width, from.y * canvas.height);
+            ctx.lineTo(to.x * canvas.width, to.y * canvas.height);
+        }
+        ++index;
+        ctx.stroke();
+    }
+    ctx.restore();
+}
 
 const isVideoPlaying = (video: HTMLVideoElement) => (video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
 
@@ -106,12 +201,14 @@ export class LetterHandlerVTwo implements Handler {
 
             if (results) {
                 if (results.landmarks.length > 0) {
-                    for (const landmarks of results.landmarks) {
-                        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
-                            color: "#00FF00",
-                            lineWidth: 5
-                        });
-                        drawLandmarks(canvasCtx, landmarks, {color: "#FF0000", lineWidth: 2});
+                    if ($conf.showHands) {
+                        for (const landmarks of results.landmarks) {
+                            drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {
+                                color: "#00FF00",
+                                lineWidth: 5
+                            });
+                            drawLandmarks(canvasCtx, landmarks, {color: "#FF0000", lineWidth: 2});
+                        }
                     }
                     const tensor = landMarksToTensor(results.landmarks[0]);
                     const prediction = aslModel.predict(tensor);
@@ -123,7 +220,6 @@ export class LetterHandlerVTwo implements Handler {
                     const pred_value_str = (pred_value_letter + " " + Math.round(pred_value[0]) + "%");
 
                     detectedLetter(pred_value_str)
-                    // TODO: CHANGE TO INDEX
                     if (pred_value_letter === letters[$conf.currentProgress[this.index].progress].letter) {
                         numberTimesCorrect++;
                         if (numberTimesCorrect > ((FPS / 2) * $conf.requiredCorrectTimes)) {

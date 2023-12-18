@@ -16,7 +16,7 @@ export const Dic = {
     A: new LetterInfo("A", "/models/A.obj", "/models/A.png", "#000000"),
     B: new LetterInfo("B", "/models/B.obj", "/models/B.png", "#f87171"),
     C: new LetterInfo("C", "/models/C.obj", "/models/C.png", "#f97316"),
-    D: new LetterInfo("D", "/models/D.ob", "/models/D.png", "#d97706"),
+    D: new LetterInfo("D", "/models/D.obj", "/models/D.png", "#d97706"),
     E: new LetterInfo("E", "/models/E.obj", "/models/E.png", "#ea580c"),
     F: new LetterInfo("F", "/models/F.obj", "/models/F.png", "#ca8a04"),
     G: new LetterInfo("G", "/models/G.obj", "/models/G.png", "#65a30d"),
