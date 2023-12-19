@@ -228,7 +228,7 @@
     </h1>
     <div class="container" style="position: relative">
         <div>
-            <video class="input_video" bind:this={videoElement} style="width: 100%">
+            <video class="input_video" bind:this={videoElement} style="width: 100%" muted playsinline>
                 <track kind="captions" src="">
             </video>
             <canvas class="output_canvas" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"
