@@ -1,0 +1,3 @@
+[submodule "ml/if_models"]
+	path = ml/if_models
+	url = https://huggingface.co/sid220/asl-now-fingerspelling

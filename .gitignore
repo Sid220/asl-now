@@ -1,8 +1,9 @@
-/testing
-/models
-/server
+/checkpoint
+/checkpoint/testing
+/checkpoint/models
+/checkpoint/server
 /sample.json
-/inf2tmp.ipynb
+/checkpoint/inf2tmp.ipynb
 /main.py
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
