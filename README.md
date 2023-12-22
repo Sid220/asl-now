@@ -1,26 +1,36 @@
 # ASLNow!
 
-[![DOI](https://img.shields.io/badge/10.57967%2Fhf%2F1494-doi?label=doi&color=blue)](https://doi.org/10.57967/hf/1494) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Sid220/asl-now/playwright.yml?logo=github&label=Tests) ![Vercel](https://vercelbadge.vercel.app/api/sid220/asl-now) [![Static Badge](https://img.shields.io/badge/Dataset-HuggingFace?label=HuggingFace)](https://huggingface.co/datasets/sid220/asl-now-fingerspelling)
+[![DOI](https://img.shields.io/badge/10.57967%2Fhf%2F1516-doi?label=model%20doi&color=blue)](https://doi.org/10.57967/hf/1516) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Sid220/asl-now/playwright.yml?logo=github&label=Tests) ![Vercel](https://vercelbadge.vercel.app/api/sid220/asl-now) [![Static Badge](https://img.shields.io/badge/Dataset-HuggingFace?label=HuggingFace)](https://huggingface.co/datasets/sid220/asl-now-fingerspelling)
 
 ASLNow! is a web app designed to make learning ASL fingerspelling easy and fun! You can try it live
-at [asl-now.vercel.app](https://asl-now.vercel.app/).
+at [asl.plios.tech](https://asl.plios.tech/).
 
 [main-demo.webm](https://github.com/Sid220/asl-now/assets/74916637/39410f98-67c5-4983-9b49-dbd0e1cf0e85)
 
+## Models
+
+### [Isolated Fingerspelling](https://huggingface.co/sid220/asl-now-fingerspelling)
+
+Capable model to convert [Mediapipe Hand Landmarks](#format) to their fingerspelling meaning. Trained on the [isolated fingerspelling dataset](#isolated-fingerspelling-1). It will be updated frequently as more data is collected. It is trained using [if_train.ipynb](https://github.com/Sid220/asl-now/blob/main/ml/if_train.ipynb). Licensed under the MIT License.
+
+Structure:
+
+![Model Image](https://huggingface.co/sid220/asl-now-fingerspelling/resolve/main/images/plotted_model.png)
+
 ## Datasets
 
-### Isolated Fingerspelling
+### [Isolated Fingerspelling](https://huggingface.co/datasets/sid220/asl-now-fingerspelling)
 
 The dataset to train the fingerspelling model is licensed under the MIT License, and is available
 at [https://huggingface.co/datasets/sid220/asl-now-fingerspelling](https://huggingface.co/datasets/sid220/asl-now-fingerspelling).
-It will be updated frequently as more data is collected.
+It will be updated frequently as more data is collected. You can view an example model using it in [if_train.ipynb](https://github.com/Sid220/asl-now/blob/main/ml/if_train.ipynb).
 
 The dataset is collected from multiple participants told to sign ASL letters into a camera and detecting hand landmarks
 using
 the [Mediapipe Web Hand Landmarker Solution](https://developers.google.com/mediapipe/solutions/vision/hand_landmarker/web_js).
 The landmarks are then parsed into a JSON format, and stored in the folder of the class they belong to.
 
-### Format
+#### Format
 
 21 hand landmarks, each composed of `x`, `y` and `z` coordinates. The `x` and `y` coordinates are normalized
 to `[0.0, 1.0]` by the
