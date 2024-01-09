@@ -3,7 +3,7 @@
 [![DOI](https://img.shields.io/badge/10.57967%2Fhf%2F1516-doi?label=model%20doi&color=blue)](https://doi.org/10.57967/hf/1516) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Sid220/asl-now/playwright.yml?logo=github&label=Tests) ![Vercel](https://vercelbadge.vercel.app/api/sid220/asl-now) [![Static Badge](https://img.shields.io/badge/Dataset-HuggingFace?label=HuggingFace)](https://huggingface.co/datasets/sid220/asl-now-fingerspelling)
 
 ASLNow! is a web app designed to make learning ASL fingerspelling easy and fun! You can try it live
-at [asl.plios.tech](https://asl.plios.tech/).
+at [asl.plios.tech](https://asl.sidtrz.com).
 
 [main-demo.webm](https://github.com/Sid220/asl-now/assets/74916637/39410f98-67c5-4983-9b49-dbd0e1cf0e85)
 
