@@ -11,6 +11,6 @@
 	</main>
 
 	<footer>
-		<p>Copyright © 2023  <a href="https://github.com/sid220">Sidney Trzepacz</a>, Some Rights Reserved. <a href="https://opensource.org/license/mit/">MIT License</a>.</p>
+		<p>Copyright © 2024  <a href="https://about.sidtrz.com/">Sidney Trzepacz</a>, Some Rights Reserved. <a href="https://opensource.org/license/mit/">MIT License</a>.</p>
 	</footer>
 </div>
